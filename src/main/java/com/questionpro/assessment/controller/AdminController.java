@@ -1,6 +1,7 @@
 package com.questionpro.assessment.controller;
 
-import com.questionpro.assessment.model.Item;
+import com.questionpro.assessment.model.ItemEntity;
+import com.questionpro.assessment.pojo.Item;
 import com.questionpro.assessment.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,9 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @PostMapping
-    public ResponseEntity<Item> addGroceryItems(@RequestBody Item item) {
-        Item savedItem = adminService.saveItem(item);
+    @PostMapping("/add")
+    public ResponseEntity<ItemEntity> addGroceryItems(@RequestBody Item item) {
+        ItemEntity savedItem = adminService.saveItem(item);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
     }
 }
