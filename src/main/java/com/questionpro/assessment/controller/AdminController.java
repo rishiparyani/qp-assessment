@@ -18,7 +18,7 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("/add")
-    public ResponseEntity<ItemEntity> addGroceryItems(@RequestBody Item item) {
+    public ResponseEntity<ItemEntity> addGroceryItems (@RequestBody Item item) {
         ItemEntity savedItem = adminService.saveItem(item);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
     }
@@ -30,8 +30,20 @@ public class AdminController {
     }
 
     @DeleteMapping("/delete-item/{itemId}")
-    public ResponseEntity<String> deleteGroceryItem(@PathVariable Long itemId) {
+    public ResponseEntity<String> deleteGroceryItem (@PathVariable Long itemId) {
         adminService.deleteItem(itemId);
-        return ResponseEntity.status(HttpStatus.OK).body(Strings.SUCCSESSFUL_DELETE);
+        return ResponseEntity.status(HttpStatus.OK).body(Strings.SUCCESSFUL_DELETE);
+    }
+
+    @PutMapping("/update-item/{itemId}")
+    public ResponseEntity<String> updateGroceryItem (@PathVariable Long itemId, @RequestBody Item item) {
+        Boolean updated = adminService.updateItem(itemId, item);
+        return updated ? ResponseEntity.status(HttpStatus.OK).body(Strings.SUCCESSFUL_UPDATE) : ResponseEntity.status(HttpStatus.OK).body(Strings.UNSUCCESSFUL);
+    }
+
+    @PutMapping("/update-stock/{itemId}")
+    public ResponseEntity<String> updateStock (@PathVariable Long itemId, @RequestBody Item item) {
+        Boolean updated = adminService.manipulateStock(itemId, item);
+        return updated ? ResponseEntity.status(HttpStatus.OK).body(Strings.SUCCESSFUL_UPDATE) : ResponseEntity.status(HttpStatus.OK).body(Strings.UNSUCCESSFUL);
     }
 }

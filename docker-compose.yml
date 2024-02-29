@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  assessment_service:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - assessment-net
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/itemdb?allowPublicKeyRetrieval=true
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - assessment-net
+    environment:
+      MYSQL_DATABASE: itemdb
+      MYSQL_USER: rishi
+      MYSQL_PASSWORD: rishi@123
+      MYSQL_ROOT_PASSWORD: root@123
+networks:
+  assessment-net:
